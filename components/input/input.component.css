@@ -1,0 +1,24 @@
+form {
+    background-color: #4d91bf;
+}
+
+.required-field::after {
+    content: "*";
+    color: red;
+}
+
+.help-block {
+    color: red;
+}
+
+button, button:disabled, button:hover {
+    color: #707171;
+    background-color: #ebecec;
+    border: 1px solid black;
+}
+
+button.active, button.active:hover {
+    color: white;
+    background-color: #4d91bf;
+    border: 1px solid black; 
+}

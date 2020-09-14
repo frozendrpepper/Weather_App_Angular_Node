@@ -1,0 +1,192 @@
+<div id="formDiv" class="col-12 offset-md-2 col-md-8">
+    <form method="GET" #getForm="ngForm" class="rounded" (submit)="dailyResponse(getForm)">
+    <h1 class="text-center text-white pt-5 pt-md-5 pb-md-3">Weather Search</h1>
+    <div class="form-group row">
+        <label for="street" class="col-form-label offset-1 col-10 offset-md-1 col-md-2 required-field">Street</label>
+        <input type="text" ngModel #street='ngModel' name="street" id="street" [disabled]="checkEnable.checked"
+            class="form-control offset-1 col-10 offset-md-0 col-md-6"  
+            aria-describedby="emailHelp" required placeholder="Enter Street Name"
+            [(ngModel)]="inputStreet">
+        <div class='help-block offset-1 offset-md-3' *ngIf="street.invalid && street.touched">Please enter a street.</div>
+    </div>
+    <div class="form-group row">
+        <label for="city" class="col-form-label offset-1 col-10 offset-md-1 col-md-2 required-field">City</label>
+        <input matInput [matAutocomplete]="auto" (input)="getCity($event.target.value)" type="text" ngModel #city='ngModel'
+            class="form-control offset-1 col-10 offset-md-0 col-md-6" name="city" id="city" required 
+            placeholder="Enter City Name" [disabled]="checkEnable.checked" [(ngModel)]="inputCity">
+        <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let city of auto_city" [value]="city">{{ city }}</mat-option>
+        </mat-autocomplete>
+        <div class='help-block offset-1 offset-md-3' *ngIf="city.invalid && city.touched">Please enter a city.</div>
+    </div>
+    <div class="form-group row">
+        <label for="state" class="col-form-label offset-1 col-10 offset-md-1 col-md-2 required-field">State</label>
+        <select class="form-control custom-select offset-1 offset-md-0 col-10 col-md-4" #state='ngModel' ngModel 
+        name = "state" id = "state" required [disabled]="checkEnable.checked" [(ngModel)]="inputState">
+            <option hidden value="" disabled selected>Select State</option>
+            <option value = "AL">Alabama</option>
+            <option value = "AK">Alaska</option>
+            <option value = "AZ">Arizona</option>
+            <option value = "AR">Arkansas</option>
+            <option value = "CA">California</option>
+            <option value = "CO">Colorado</option>
+            <option value = "CT">Conneticut</option>
+            <option value = "DE">Delaware</option>
+            <option value = "DC">District of Columbia</option>
+            <option value = "FL">Florida</option>
+            <option value = "GA">Georgia</option>
+            <option value = "HI">Hawaii</option>
+            <option value = "ID">Idaho</option>
+            <option value = "IL">Illinois</option>
+            <option value = "IN">Indiana</option>
+            <option value = "IA">Iowa</option>
+            <option value = "KS">Kansas</option>
+            <option value = "KY">Kentucky</option>
+            <option value = "LA">Louisiana</option>
+            <option value = "ME">Maine</option>
+            <option value = "MD">Maryland</option>
+            <option value = "MA">Massachusetts</option>
+            <option value = "MI">Michigan</option>
+            <option value = "MN">Minnesota</option>
+            <option value = "MS">Mississippi</option>
+            <option value = "MO">Missouri</option>
+            <option value = "MT">Montana</option>
+            <option value = "NE">Nebraska</option>
+            <option value = "NV">Nevada</option>
+            <option value = "NH">New Hamshire</option>
+            <option value = "NJ">New Jersey</option>
+            <option value = "NM">New Mexico</option>
+            <option value = "NY">New York</option>
+            <option value = "NC">North Carolina</option>
+            <option value = "ND">North Dakota</option>
+            <option value = "OH">Ohio</option>
+            <option value = "OK">Oklahoma</option>
+            <option value = "OR">Oregon</option>
+            <option value = "PA">Pennsylvania</option>
+            <option value = "RI">Rhode Island</option>
+            <option value = "SC">South Carolina</option>
+            <option value = "SD">South Dakota</option>
+            <option value = "TN">Tennesse</option>
+            <option value = "TX">Texas</option>
+            <option value = "UT">Utah</option>
+            <option value = "VT">Vermont</option>
+            <option value = "VA">Virginia</option>
+            <option value = "WA">Washington</option>
+            <option value = "WV">West Virginia</option>
+            <option value = "WI">Wisconsin</option>
+            <option value = "WY">Wyoming</option>
+        </select>
+    </div>
+    <div class="form-group form-check offset-1 offset-md-1">
+        <input type="checkbox" ngModel #checkEnable class="form-check-input" id="enable" name="enable" [(ngModel)]="inputCheck">
+        <label class="form-check-label" for="enable">Current Location</label>
+    </div>
+    <div>
+        <input type="hidden" ngModel name="hidden_lattitude" [(ngModel)]="hidden_lattitude">
+        <input type="hidden" ngModel name="hidden_longitude" [(ngModel)]="hidden_longitude">
+        <input type="hidden" ngModel name="hidden_city" [(ngModel)]="hidden_city">
+        <input type="hidden" ngModel name="hidden_state" [(ngModel)]="hidden_state">
+        <input type="hidden" ngModel name="hidden_timezone" [(ngModel)]="hidden_timezone">
+    </div>
+    <button type="submit" [disabled]="getForm.invalid" 
+    class="btn btn-secondary btn-lg offset-1 offset-md-1 mb-5 mb-md-5">
+        <div class="button_icon"><i class="material-icons">search</i>Search</div>
+    </button>
+    <button type="button" class="btn btn-primary btn-lg ml-4 mb-5 ml-md-4 mb-md-5" (click)="clearPage()">
+        <div class="button_icon"><i class="material-icons">clear_all</i>Clear</div>
+    </button>
+    </form>
+</div>
+<!-- mx-auto apparently only works for fixed width. Use text-center instead -->
+<div class="text-center">
+    <button type="button" id="results" class="btn btn-lg mt-4 mt-md-4 active" (click)="backToDetail()">Results</button>
+    <button type="button" id="favorites" class="btn btn-lg ml-3 mt-4 ml-md-3 mt-md-4" (click)="toFavorite()">Favorites</button>
+</div>
+
+<div *ngIf="showProgress" class="progress mt-5 mt-md-5">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
+</div>
+
+<!-- Bootstrap navbar here for navigating different results. BTW you cannot use
+ngIf with canvas and DOM manipulation in the script because they both require the
+template to specifically contain those elements before building which is why 
+display option here is used instead of ngIf -->
+<div [style.display]="isRendered ? 'block' : 'none'" class="mt-5 mt-md-5 text-center 
+offset-0 offset-md-1 col-12 col-md-10 row">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="current-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Current</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="hourly-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Hourly</a>
+    </li>
+    <li class="nav-item mr-1">
+      <a class="nav-link" id="weekly-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Weekly</a>
+    </li>
+    <li class="nav-item offset-0 offset-md-7">
+      <a class="twitter-share-button" data-size="large" href="{{ twitterUrl }}" target="_blank">
+        <img class="p-0" id="twitter_img" src="https://csci571.com/hw/hw8/Images/Twitter.png">
+      </a>
+    </li>
+    <li class="nav-item ml-0 ml-md-3">
+      <button *ngIf="!isFavorite" type="button" id="fav_btn" class="btn btn-primary" (click)="addFavorite()">
+        <i class="material-icons">star_border</i>
+      </button>
+      <button *ngIf="isFavorite" type="button" id="fav_btn_disabled" class="btn btn-primary" (click)="addFavorite()">
+        <i class="material-icons">star</i>
+      </button>
+    </li>
+  </ul>
+
+  <!-- These are div contents that will be linked to each navbar -->
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active row chart" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <div id = "current_info" class="rounded offset-1 col-11 my-4 offset-md-2 col-md-8">    
+        <div class="row"> 
+          <div class="col-5 col-md-6 text-left">
+              <p class="mx-2 mx-md-4 mt-3 mt-md-3 mb-md-2" id="curCity">{{ curCity }}</p>
+              <p class="mx-2 mx-md-4 mt-3 mt-md-3 mb-md-3" id="timeZone">{{ timeZone }}</p>
+              <p class="mx-2 mx-md-4 mt-3 mt-md-4 mb-md-4" id="curTemp">{{ curTemp }} &#8457;</p>
+              <p class="mx-2 mx-md-4 mt-3 mt-md-4 mb-md-4" id="curSum">{{ curSum }}</p>
+          </div>
+          <div class="offset-3 col-4 mt-5 offset-md-1 col-md-5 mt-md-5 text-left">
+            <img class="seal_image" src="{{ inputImage }}">
+          </div>
+        </div>
+        <div class="row">
+          <div data-toggle="tooltip" data-placement="top" title="Humidity" *ngIf="curHumid" class="col-2 col-md-2"><img class="detail_img img-fluid" src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-16-512.png"><p>{{ curHumid }}</p></div>
+          <div data-toggle="tooltip" data-placement="top" title="Pressure" *ngIf="curP" class="col-2 col-md-2"><img class="detail_img img-fluid" src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-25-512.png"><p>{{ curP }}</p></div>
+          <div data-toggle="tooltip" data-placement="top" title="Wind Speed" *ngIf="curWind" class="col-2 col-md-2"><img class="detail_img img-fluid" src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-27-512.png"><p>{{ curWind }}</p></div>
+          <div data-toggle="tooltip" data-placement="top" title="Visibility" *ngIf="curVis" class="col-2 col-md-2"><img class="detail_img img-fluid" src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-30-512.png"><p>{{ curVis }}</p></div>
+          <div data-toggle="tooltip" data-placement="top" title="Cloud Cover" *ngIf="curCloud" class="col-2 col-md-2"><img class="detail_img img-fluid" src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-28-512.png"><p>{{ curCloud }}</p></div>
+          <div data-toggle="tooltip" data-placement="top" title="Ozone" *ngIf="curOzone" class="col-2 col-md-2"><img class="detail_img img-fluid" src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-24-512.png"><p>{{ curOzone }}</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade chart" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <select id="hourlySelect" class="bootstrap-select form-control col-12 mt-5 mb-4 col-md-3 mt-md-5 mb-md-4" (change)="showGraph($event.target.value)">
+        <option id="tempOption" value="0">Temperature</option>
+        <option id="pOption" value="1">Pressure</option>
+        <option id="humidOption" value="2">Humidity</option>
+        <option id="ozoneOption" value="3">Ozone</option>
+        <option id="visOption" value="4">Visibility</option>
+        <option id="windOption" value="5">Wind Speed</option>
+      </select>
+      <!-- You have to wrap canvas around a div element to make it show -->
+      <!-- These are the hourly charts -->
+      <div class="chart mb-4" [style.display]="weeklyHidden[0] ? 'block' : 'none'"><canvas id='tempChart'></canvas></div>
+      <div class="chart mb-4" [style.display]="weeklyHidden[1] ? 'block' : 'none'"><canvas id='pChart'></canvas></div>
+      <div class="chart mb-4" [style.display]="weeklyHidden[2] ? 'block' : 'none'"><canvas id='humidChart'></canvas></div>
+      <div class="chart mb-4" [style.display]="weeklyHidden[3] ? 'block' : 'none'"><canvas id='ozoneChart'></canvas></div>
+      <div class="chart mb-4" [style.display]="weeklyHidden[4] ? 'block' : 'none'"><canvas id='visChart'></canvas></div>
+      <div class="chart mb-4" [style.display]="weeklyHidden[5] ? 'block' : 'none'"><canvas id='windChart'></canvas></div>
+    </div>
+    <div class="tab-pane fade chart mb-md-4" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+      <h1 id="weekly_weather" class="my-md-4">Weekly Weather</h1>  
+      <div class='weekly_weather_div'><canvas id='weeklyChart'></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- Error message -->
+<p class="error_message" *ngIf="isError">{{ errorMessage }}</p>

@@ -1,0 +1,38 @@
+<ng-container *ngIf="!isError">
+    <div class="modal-header col-md-12 row">
+        <h4 class="modal-title">{{ actual_time }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body col-12 col-md-12 row">
+        <div class="body_info col-6 ml-md-3">
+            <p class="mb-md-2" id="cur_city">{{ cur_city }}</p>
+            <p class="mt-md-3" id="cur_temp">{{ current_temp }} &#8457;</p>
+            <p class="mt-md-3" id="cur_sum">{{ current_sum }}</p>
+        </div>
+        <div class="body_image offset-1 col-2">
+            <img id="modal_image" src="{{ current_icon }}">
+        </div>
+    </div>
+    <div class="modal-footer col-md-12 row">
+        <div class="footer_info offset-md-5 col-md-6">
+            <p>Precipitation: {{ current_prec }}</p>
+            <p>Chance of Rain: {{ current_prec_chance }} %</p>
+            <p>Wind Speed: {{ current_wind }} mph</p>
+            <p>Humidity: {{ current_humid }} %</p>
+            <p>Visibility: {{ current_vis }} miles</p>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="isError">
+    <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <p>{{ errorMessage}}</p>
+    </div>
+</ng-container>

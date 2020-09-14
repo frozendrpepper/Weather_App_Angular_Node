@@ -1,0 +1,136 @@
+<div id="formDiv" class="col-12 offset-md-2 col-md-8">
+    <form method="GET" #getForm="ngForm" class="rounded" (submit)="dailyResponse(getForm)">
+    <h1 class="text-center text-white pt-5 pt-md-5 pb-md-3">Weather Search</h1>
+    <div class="form-group row">
+        <label for="street" class="col-form-label offset-1 col-10 offset-md-1 col-md-2 required-field">Street</label>
+        <input type="text" ngModel #street='ngModel' name="street" id="street" [disabled]="checkEnable.checked"
+            class="form-control offset-1 col-10 offset-md-0 col-md-6"  
+            aria-describedby="emailHelp" required placeholder="Enter Street Name"
+            [(ngModel)]="inputStreet">
+        <div class='help-block offset-1 offset-md-3' *ngIf="street.invalid && street.touched">Please enter a street.</div>
+    </div>
+    <div class="form-group row">
+        <label for="city" class="col-form-label offset-1 col-10 offset-md-1 col-md-2 required-field">City</label>
+        <input matInput [matAutocomplete]="auto" (input)="getCity($event.target.value)" type="text" ngModel #city='ngModel'
+            class="form-control offset-1 col-10 offset-md-0 col-md-6" name="city" id="city" required 
+            placeholder="Enter City Name" [disabled]="checkEnable.checked" [(ngModel)]="inputCity">
+        <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let city of auto_city" [value]="city">{{ city }}</mat-option>
+        </mat-autocomplete>
+        <div class='help-block offset-1 offset-md-3' *ngIf="city.invalid && city.touched">Please enter a city.</div>
+    </div>
+    <div class="form-group row">
+        <label for="state" class="col-form-label offset-1 col-10 offset-md-1 col-md-2 required-field">State</label>
+        <select class="form-control custom-select offset-1 offset-md-0 col-10 col-md-4" #state='ngModel' ngModel 
+        name = "state" id = "state" required [disabled]="checkEnable.checked" [(ngModel)]="inputState">
+            <option hidden value="" disabled selected>Select State</option>
+            <option value = "AL">Alabama</option>
+            <option value = "AK">Alaska</option>
+            <option value = "AZ">Arizona</option>
+            <option value = "AR">Arkansas</option>
+            <option value = "CA">California</option>
+            <option value = "CO">Colorado</option>
+            <option value = "CT">Conneticut</option>
+            <option value = "DE">Delaware</option>
+            <option value = "DC">District of Columbia</option>
+            <option value = "FL">Florida</option>
+            <option value = "GA">Georgia</option>
+            <option value = "HI">Hawaii</option>
+            <option value = "ID">Idaho</option>
+            <option value = "IL">Illinois</option>
+            <option value = "IN">Indiana</option>
+            <option value = "IA">Iowa</option>
+            <option value = "KS">Kansas</option>
+            <option value = "KY">Kentucky</option>
+            <option value = "LA">Louisiana</option>
+            <option value = "ME">Maine</option>
+            <option value = "MD">Maryland</option>
+            <option value = "MA">Massachusetts</option>
+            <option value = "MI">Michigan</option>
+            <option value = "MN">Minnesota</option>
+            <option value = "MS">Mississippi</option>
+            <option value = "MO">Missouri</option>
+            <option value = "MT">Montana</option>
+            <option value = "NE">Nebraska</option>
+            <option value = "NV">Nevada</option>
+            <option value = "NH">New Hamshire</option>
+            <option value = "NJ">New Jersey</option>
+            <option value = "NM">New Mexico</option>
+            <option value = "NY">New York</option>
+            <option value = "NC">North Carolina</option>
+            <option value = "ND">North Dakota</option>
+            <option value = "OH">Ohio</option>
+            <option value = "OK">Oklahoma</option>
+            <option value = "OR">Oregon</option>
+            <option value = "PA">Pennsylvania</option>
+            <option value = "RI">Rhode Island</option>
+            <option value = "SC">South Carolina</option>
+            <option value = "SD">South Dakota</option>
+            <option value = "TN">Tennesse</option>
+            <option value = "TX">Texas</option>
+            <option value = "UT">Utah</option>
+            <option value = "VT">Vermont</option>
+            <option value = "VA">Virginia</option>
+            <option value = "WA">Washington</option>
+            <option value = "WV">West Virginia</option>
+            <option value = "WI">Wisconsin</option>
+            <option value = "WY">Wyoming</option>
+        </select>
+    </div>
+    <div class="form-group form-check offset-1 offset-md-1">
+        <input type="checkbox" ngModel #checkEnable class="form-check-input" id="enable" name="enable" [(ngModel)]="inputCheck">
+        <label class="form-check-label" for="enable">Current Location</label>
+    </div>
+    <div>
+        <input type="hidden" ngModel name="hidden_lattitude" [(ngModel)]="hidden_lattitude">
+        <input type="hidden" ngModel name="hidden_longitude" [(ngModel)]="hidden_longitude">
+        <input type="hidden" ngModel name="hidden_city" [(ngModel)]="hidden_city">
+        <input type="hidden" ngModel name="hidden_state" [(ngModel)]="hidden_state">
+        <input type="hidden" ngModel name="hidden_timezone" [(ngModel)]="hidden_timezone">
+    </div>
+    <button type="submit" [disabled]="getForm.invalid" 
+    class="btn btn-secondary btn-lg offset-1 offset-md-1 mb-5 mb-md-5">
+        <div class="button_icon"><i class="material-icons">search</i>Search</div>
+    </button>
+    <button type="button" class="btn btn-primary btn-lg ml-4 mb-5 ml-md-4 mb-md-5" (click)="clearPage()">
+        <div class="button_icon"><i class="material-icons">clear_all</i>Clear</div>
+    </button>
+    </form>
+</div>
+<!-- mx-auto apparently only works for fixed width. Use text-center instead -->
+<div class="text-center">
+    <button type="button" id="results" class="btn btn-lg mt-4 mt-md-4" (click)="backToDetail()">Results</button>
+    <button type="button" id="favorites" class="btn btn-lg ml-3 mt-4 ml-md-3 mt-md-4 active" (click)="toFavorite()">Favorites</button>
+</div>
+
+<div *ngIf="showProgress" class="progress mt-5 mt-md-5">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
+</div>
+
+<p class="error_message" *ngIf="isEmpty">No Records</p>
+<!-- Show the favorite table -->
+<div *ngIf="!isEmpty" class="offset-0 col-12 offset-md-1 col-md-10 mt-4">
+    <table class="table">
+        <thead>
+            <th>#</th>
+            <th>Image</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Favorites</th>
+        </thead>
+        <tbody>
+            <tr *ngFor = "let data of favData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <!-- The class = {{ i }} is used to target these elements when we apply
+                our logic for fetching data and updating the localStorage-->
+                <td><img src="{{ data.imageIndex }}"></td>
+                <td><span id="{{ data.cityIndex + ',' + data.stateIndex }}" (click)="favDailyResponse($event.target.id)">{{ data.cityIndex }}</span></td>
+                <td>{{ data.stateIndex }}</td>
+                <td><button id="{{ i }}" (click)="deleteFavorite($event.target.id)">
+                        <i id="delete_button" class="material-icons">delete</i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>    
+</div>

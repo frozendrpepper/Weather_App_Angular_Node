@@ -1,0 +1,112 @@
+#current_info {
+    background-color: #9accf3;
+    border: 1px solid black
+}
+
+#curCity, #curTemp {
+    font-size: 1.3rem;
+}
+
+#timeZone {
+    font-size: 1.3rem;
+    color: #595a56;
+}
+
+#curSum {
+    font-size: 0.8rem;
+}
+
+#weekly_weather {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 576px) {
+    .weekly_weather_div, .chart {
+        height: 300px;
+    }
+}
+
+@media only screen and (min-width: 760px) {
+    .weekly_weather_div, .chart {
+        height: 360px;
+    }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 576px) {
+    p {
+        white-space: nowrap;
+        font-size: 12px;
+    }
+}
+
+@media only screen and (min-width: 760px) {
+    p {
+        white-space: nowrap;
+        font-size: 18px;
+    }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 576px) {
+    .seal_image {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media only screen and (min-width: 760px) {
+    .seal_image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+.detail_img {
+    width: 80%;
+    height: 60%;
+}
+
+#contact {
+    height: 10%;
+}
+
+form {
+    background-color: #4d91bf;
+}
+
+.required-field::after {
+    content: "*";
+    color: red;
+}
+
+.help-block {
+    color: red;
+}
+
+button, button:disabled, button:hover {
+    color: #707171;
+    background-color: #ebecec;
+    border: 1px solid black;
+}
+
+button.active, button.active:hover {
+    color: white;
+    background-color: #4d91bf;
+    border: 1px solid black; 
+}
+
+#fav_btn {
+    background-color: #F9F3F3;
+    border: 0;
+}
+
+#fav_btn_disabled {
+    background-color: #F9F3F3;
+    border: 0;
+    color: #FFD700;
+}
+
+#twitter_img {
+    width: 45px;
+    height: 40px;
+}

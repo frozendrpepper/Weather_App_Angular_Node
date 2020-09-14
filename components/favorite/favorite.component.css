@@ -1,0 +1,60 @@
+img {
+    width: 50px;
+    height: 50px
+}
+
+td span {
+    color: blue;
+    cursor: pointer;
+}
+
+form {
+    background-color: #4d91bf;
+}
+
+table tr:nth-child(odd) {
+    background-color: #79c6da;
+}
+
+table tr:nth-child(even) {
+    background-color: #64a1b1;
+}
+
+#delete_button {
+    color: #cdcf3e;
+}
+
+.required-field::after {
+    content: "*";
+    color: red;
+}
+
+.help-block {
+    color: red;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 576px) {
+    th {
+        background-color: #64a1b1;
+        font-size: 13px;
+    }
+}
+
+@media only screen and (min-width: 760px) {
+    th {
+        background-color: #64a1b1;
+        font-size: 18px;
+    }
+}
+
+button, button:disabled, button:hover {
+    color: #707171;
+    background-color: #ebecec;
+    border: 1px solid black;
+}
+
+button.active, button.active:hover {
+    color: white;
+    background-color: #4d91bf;
+    border: 1px solid black; 
+}

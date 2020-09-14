@@ -1,0 +1,45 @@
+@media only screen and (min-width: 320px) and (max-width: 576px) {
+    #modal_image {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media only screen and (min-width: 760px) {
+    #modal_image {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+p {
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+.modal-header {
+    background-color: #5c9ca3;
+    margin-left: 0;
+}
+
+.modal-body, .modal-footer {
+    background-color: #85cdd5;
+    margin-left: 0;
+}
+
+.footer_info {
+    font-size: 18px;
+}
+
+#cur_city {
+    font-size: 30px
+}
+
+#cur_temp {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#cur_sum {
+    font-size: 15px;
+}
