@@ -17,7 +17,7 @@ http://csci571-hw8.s3-website-us-west-1.amazonaws.com
 * ip-api for local geolocation
 
 ## Things to watch out for
-* If your browser has adblock extensions enabled, the search will NOT work since submit button requires ip-api to return valid JSON and adblock extensions block this api call
+* If your browser has adblock extensions enabled, the searching via current location will NOT work since adblock extensions block the ip-api call to get Client's geolocation
 * Some images may be missing because they have been deprecated
 
 ### Project Origin
